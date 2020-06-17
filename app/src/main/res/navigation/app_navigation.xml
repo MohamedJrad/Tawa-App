@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/app_navigation"
+    app:startDestination="@id/regionFragment">
+
+    <fragment
+        android:id="@+id/regionFragment"
+        android:name="com.tawa.tawa_app.regions.RegionFragment"
+        tools:layout="@layout/region_fragment" >
+        <action
+            android:id="@+id/action_regionFragment_to_specialitiesFragment"
+            app:destination="@id/specialitiesFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/specialitiesFragment"
+        android:name="com.tawa.tawa_app.specialities.SpecialitiesFragment"
+        tools:layout="@layout/fragment_specialities" >
+        <action
+            android:id="@+id/action_specialitiesFragment_to_specialistsFragment"
+            app:destination="@id/specialistsFragment" />
+        <argument
+            android:name="region"
+            app:argType="string" />
+
+    </fragment>
+    <fragment
+        android:id="@+id/specialistsFragment"
+        android:name="com.tawa.tawa_app.specialists.SpecialistsFragment"
+        tools:layout="@layout/fragment_specialists" >
+        <argument
+            android:name="region"
+            app:argType="string" />
+        <argument
+            android:name="speciality"
+            app:argType="string" />
+    </fragment>
+</navigation>
