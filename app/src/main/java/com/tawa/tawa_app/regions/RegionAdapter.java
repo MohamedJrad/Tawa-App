@@ -1,6 +1,8 @@
 package com.tawa.tawa_app.regions;
 
 
+import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.tawa.tawa_app.model.Region;
 
@@ -12,8 +14,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
-import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.tawa.tawa_app.R;
 
 class RegionAdapter extends FirestoreRecyclerAdapter<Region, RegionAdapter.NoteHolder> {

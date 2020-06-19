@@ -63,6 +63,35 @@
           ]
         }
       }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:140353518886:android:b00c8d56381c5466ab15e7",
+        "android_client_info": {
+          "package_name": "com.tawa.tawaapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "140353518886-34g19jta1r0ogb8sal7nsvl4j8kk95o2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBNhUIBSB-2g0L9BVctjInX_L92YAtIR_0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "140353518886-34g19jta1r0ogb8sal7nsvl4j8kk95o2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
     }
   ],
   "configuration_version": "1"
