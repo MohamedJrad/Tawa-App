@@ -17,9 +17,8 @@ public class SplashActivity extends AppCompatActivity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_splash);
-        ImageView logo =findViewById(R.id.logo);
-        logo.setImageResource(R.drawable.tawa_logo);
-
+        ImageView logo = findViewById(R.id.logo);
+        logo.setImageResource(R.drawable.logo_main);
 
 
         Thread th = new Thread() {
@@ -39,7 +38,6 @@ public class SplashActivity extends AppCompatActivity {
             }
         };
         th.start();
-
 
 
     }

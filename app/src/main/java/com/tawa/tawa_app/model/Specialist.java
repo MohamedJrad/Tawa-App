@@ -3,18 +3,24 @@ package com.tawa.tawa_app.model;
 
 
 public class Specialist  {
-    private String name;
-private  String imageUrl;
-private String speciality;
-private String address;
-private String phone;
-private String email;
-private String region;
+    private String name="";
+    private  String imageUrl="";
+    private String speciality="";
+    private String address="";
+    private String phone="";
+    private String email="";
+    private String region="";
+    private String governorate;
+    private Boolean visibility=true;
+    private  String jobTitle="";
+    private  String description="";
+    private String facebook="";
+    private String instagram="";
 
     public Specialist() {
     }
 
-    public Specialist(String name, String imageUrl, String speciality, String address, String phone, String email, String region, String governorate) {
+    public Specialist(String name,  String jobTitle ,String imageUrl, String speciality, String address, String phone, String email, String region, String governorate, Boolean visibility) {
         this.name = name;
         this.imageUrl = imageUrl;
         this.speciality = speciality;
@@ -23,6 +29,50 @@ private String region;
         this.email = email;
         this.region = region;
         this.governorate = governorate;
+        this.visibility = visibility;
+        this.jobTitle = jobTitle;
+    }
+
+    public Specialist(String name, String imageUrl, String speciality, String address, String phone, String email, String region, String governorate, Boolean visibility, String jobTitle, String description, String facebook, String instagram) {
+        this.name = name;
+        this.imageUrl = imageUrl;
+        this.speciality = speciality;
+        this.address = address;
+        this.phone = phone;
+        this.email = email;
+        this.region = region;
+        this.governorate = governorate;
+        this.visibility = visibility;
+        this.jobTitle = jobTitle;
+        this.description = description;
+        this.facebook = facebook;
+        this.instagram = instagram;
+    }
+
+
+
+    public String getFacebook() {
+        return facebook;
+    }
+
+    public void setFacebook(String facebook) {
+        this.facebook = facebook;
+    }
+
+    public String getInstagram() {
+        return instagram;
+    }
+
+    public void setInstagram(String instagram) {
+        this.instagram = instagram;
+    }
+
+    public Boolean getVisibility() {
+        return visibility;
+    }
+
+    public void setVisibility(Boolean visibility) {
+        this.visibility = visibility;
     }
 
     public String getName() {
@@ -89,5 +139,19 @@ private String region;
         this.governorate = governorate;
     }
 
-    private String governorate;
+    public String getJobTitle() {
+        return jobTitle;
+    }
+
+    public void setJobTitle(String jobTitle) {
+        this.jobTitle = jobTitle;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 }

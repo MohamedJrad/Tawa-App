@@ -31,7 +31,7 @@ class SpecialistAdapter extends FirestoreRecyclerAdapter<Specialist, SpecialistA
 
     @Override
     protected void onBindViewHolder(@NonNull SpecialistHolder holder, int position, @NonNull Specialist model) {
-        Picasso.get().load(model.getImageUrl()).into(holder.profileImage);
+        Picasso.get().load(model.getImageUrl()).placeholder(R.drawable.avatar).into(holder.profileImage);
         holder.name.setText(model.getName());
         holder.address.setText(model.getAddress());
         holder.phone.setText(model.getPhone());

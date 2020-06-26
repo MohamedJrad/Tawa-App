@@ -2,12 +2,12 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
     <androidx.cardview.widget.CardView
-        android:layout_width="398dp"
-        android:layout_height="250dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
@@ -20,41 +20,49 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
 
             <TextView
                 android:id="@+id/textView_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="164dp"
                 android:layout_marginTop="16dp"
-                android:layout_marginEnd="166dp"
                 android:text="TextView"
+                android:textColor="#040404"
+                android:textSize="30sp"
+                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/profile_image" />
 
             <TextView
                 android:id="@+id/textView_address"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="167dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="164dp"
+                android:layout_marginStart="64dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="64dp"
+                android:gravity="center"
                 android:text="TextView"
+                android:textColor="#000000"
+                android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.501"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView_name" />
+                app:layout_constraintTop_toBottomOf="@+id/jobTitleField" />
 
             <TextView
                 android:id="@+id/textView_phone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="169dp"
+                android:layout_marginStart="32dp"
                 android:layout_marginTop="8dp"
-                android:layout_marginEnd="161dp"
+                android:layout_marginEnd="32dp"
+                android:gravity="center"
                 android:text="TextView"
+                android:textColor="#000000"
+                android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView_address" />
@@ -63,13 +71,16 @@
                 android:id="@+id/textView_email"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="167dp"
+                android:layout_marginStart="32dp"
                 android:layout_marginTop="8dp"
-                android:layout_marginEnd="164dp"
+                android:layout_marginEnd="32dp"
                 android:layout_marginBottom="16dp"
                 android:text="TextView"
+                android:textColor="#000000"
+                android:textSize="18sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.501"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView_phone" />
 
@@ -77,14 +88,30 @@
                 android:id="@+id/profile_image"
                 android:layout_width="111dp"
                 android:layout_height="101dp"
-                android:layout_marginStart="144dp"
                 android:layout_marginTop="16dp"
-                android:layout_marginEnd="143dp"
+                android:src="@drawable/avatar"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:src="@drawable/tawa_logo"
-                tools:srcCompat="@tools:sample/avatars" />
+
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/jobTitleField"
+                style="b"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="32dp"
+                android:background="#2196F3"
+                android:clickable="false"
+                android:text="Button"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView_name" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

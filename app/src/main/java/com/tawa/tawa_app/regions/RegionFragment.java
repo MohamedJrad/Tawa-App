@@ -1,5 +1,6 @@
 package com.tawa.tawa_app.regions;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -10,11 +11,15 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.SearchView;
 import android.widget.TextView;
 
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -23,31 +28,41 @@ import com.tawa.tawa_app.R;
 import com.tawa.tawa_app.model.Region;
 
 public class RegionFragment extends Fragment {
+    FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
 
-    private RegionViewModel mViewModel;
+
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private CollectionReference notebookRef = db.collection("regions");
     private RegionAdapter adapter;
+    SearchView searchView;
 
     public static RegionFragment newInstance() {
         return new RegionFragment();
     }
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.region_fragment, container, false);
+        return inflater.inflate(R.layout.fragment_region, container, false);
+
+
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        TextView text =getActivity().findViewById(R.id.toolbar_title);
+        final TextView text = getActivity().findViewById(R.id.toolbar_title);
         text.setText("سوسة");
 
 
-        Query query = notebookRef .whereEqualTo("governorate","سوسة");
-              //  .orderBy("name", Query.Direction.ASCENDING);
+        Query query = notebookRef.whereEqualTo("governorate", "سوسة");
+        //  .orderBy("name", Query.Direction.ASCENDING);
 
         FirestoreRecyclerOptions<Region> options = new FirestoreRecyclerOptions.Builder<Region>()
                 .setQuery(query, Region.class)
@@ -55,7 +70,7 @@ public class RegionFragment extends Fragment {
 
         adapter = new RegionAdapter(options);
 
-        RecyclerView recyclerView = view.findViewById(R.id.region_recycler_view);
+        RecyclerView recyclerView = view.findViewById(R.id.test_recycler_view);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
@@ -68,14 +83,41 @@ public class RegionFragment extends Fragment {
                 String id = documentSnapshot.getId();
                 Bundle bundle = new Bundle();
                 bundle.putString("region", region.getName());
+                bundle.putString("id", id);
 
 
+                Navigation.findNavController(getView()).navigate(R.id.action_regionFragment_to_specialitiesFragment, bundle);
 
+                //   Toast.makeText(getContext(), "position" + position+"id"+ id, Toast.LENGTH_SHORT).show();
+            }
+        });
 
+        searchView = view.findViewById(R.id.searchView);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
 
-                Navigation.findNavController(getView()).navigate(R.id.action_regionFragment_to_specialitiesFragment,bundle);
+                return false;
+            }
 
-             //   Toast.makeText(getContext(), "position" + position+"id"+ id, Toast.LENGTH_SHORT).show();
+            @Override
+            public boolean onQueryTextChange(String s) {
+                if (!s.isEmpty()) {
+                    Query query = notebookRef.orderBy("name").startAt(s).endAt(s+"\uf8ff");
+                    FirestoreRecyclerOptions<Region> options = new FirestoreRecyclerOptions.Builder<Region>()
+                            .setQuery(query, Region.class)
+                            .build();
+                    adapter.updateOptions(options);
+                }else {
+                    Query query = notebookRef.whereEqualTo("governorate", "سوسة");
+                    //  .orderBy("name", Query.Direction.ASCENDING);
+
+                    FirestoreRecyclerOptions<Region> options = new FirestoreRecyclerOptions.Builder<Region>()
+                            .setQuery(query, Region.class)
+                            .build();
+                    adapter.updateOptions(options);
+                }
+                return false;
             }
         });
     }
@@ -92,5 +134,22 @@ public class RegionFragment extends Fragment {
         super.onDestroy();
         adapter.stopListening();
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+
+            case R.id.action_settings:
+                Navigation.findNavController(getView()).navigate(R.id.action_regionFragment_to_aboutUsFragment);
+
+
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+
 
 }

@@ -8,10 +8,13 @@
     <fragment
         android:id="@+id/regionFragment"
         android:name="com.tawa.tawa_app.regions.RegionFragment"
-        tools:layout="@layout/region_fragment" >
+        tools:layout="@layout/fragment_region" >
         <action
             android:id="@+id/action_regionFragment_to_specialitiesFragment"
             app:destination="@id/specialitiesFragment" />
+        <action
+            android:id="@+id/action_regionFragment_to_aboutUsFragment"
+            app:destination="@id/aboutUsFragment" />
     </fragment>
     <fragment
         android:id="@+id/specialitiesFragment"
@@ -23,6 +26,9 @@
         <argument
             android:name="region"
             app:argType="string" />
+        <action
+            android:id="@+id/action_specialitiesFragment_to_aboutUsFragment"
+            app:destination="@id/aboutUsFragment" />
 
     </fragment>
     <fragment
@@ -35,5 +41,25 @@
         <argument
             android:name="speciality"
             app:argType="string" />
+        <action
+            android:id="@+id/action_specialistsFragment_to_aboutUsFragment"
+            app:destination="@id/aboutUsFragment" />
+        <action
+            android:id="@+id/action_specialistsFragment_to_specialistInfoFragment"
+            app:destination="@id/specialistInfoFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/aboutUsFragment"
+        android:name="com.tawa.tawa_app.AboutUsFragment"
+        android:label="fragment_about_us"
+        tools:layout="@layout/fragment_about_us" />
+    <fragment
+        android:id="@+id/specialistInfoFragment"
+        android:name="com.tawa.tawa_app.specialists.SpecialistInfoFragment"
+        android:label="fragment_specialist_info"
+        tools:layout="@layout/fragment_specialist_info" >
+        <action
+            android:id="@+id/action_specialistInfoFragment_to_aboutUsFragment"
+            app:destination="@id/aboutUsFragment" />
     </fragment>
 </navigation>
