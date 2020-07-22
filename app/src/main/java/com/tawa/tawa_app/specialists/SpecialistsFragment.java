@@ -74,6 +74,7 @@ public class SpecialistsFragment extends Fragment {
 
         adapter = new SpecialistAdapter(options);
 
+
         RecyclerView recyclerView = view.findViewById(R.id.specialist_recycler_view);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));

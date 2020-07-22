@@ -45,33 +45,32 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class SpecialistInfoFragment extends Fragment {
 
 
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private StorageReference storageReference;
 
-        private FirebaseFirestore db = FirebaseFirestore.getInstance();
-        private StorageReference storageReference;
+    private CollectionReference galleryRef;
+    //   private DocumentReference documentReference;
+    String facebookUrl = "";
+    String instagramUrl = "";
 
-        private CollectionReference galleryRef;
-     //   private DocumentReference documentReference;
-        String facebookUrl = "";
-        String instagramUrl = "";
+    private SpecialistGalleryAdapter adapter;
 
-        private SpecialistGalleryAdapter adapter;
-
-        CircleImageView profile_image;
-        TextView name;
-        TextView jobTitle;
-        TextView description;
-        ImageView facebookIcon;
-        ImageView instagramIcon;
-        Button edit;
-        RecyclerView recyclerView;
+    CircleImageView profile_image;
+    TextView name;
+    TextView jobTitle;
+    TextView description;
+    ImageView facebookIcon;
+    ImageView instagramIcon;
+    Button edit;
+    RecyclerView recyclerView;
 
 
-        Toolbar toolbar;
+    Toolbar toolbar;
 
-        @Override
-        public void onCreate(@Nullable Bundle savedInstanceState) {
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-            setHasOptionsMenu(true);
+        setHasOptionsMenu(true);
         assert getArguments() != null;
         galleryRef = db.collection("specialists")
                 .document(getArguments().getString("id"))
@@ -91,19 +90,19 @@ public class SpecialistInfoFragment extends Fragment {
 
     }
 
-        @Override
-        public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
-            @Nullable Bundle savedInstanceState) {
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
 
         return inflater.inflate(R.layout.fragment_specialist_info, container, false);
     }
 
 
-        @Override
-        public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         galleryRef = db.collection("specialists").document(getArguments().getString("id")).collection("gallery");
-       // documentReference = db.collection("specialists").document(getArguments().getString("id"));
+        // documentReference = db.collection("specialists").document(getArguments().getString("id"));
         storageReference = FirebaseStorage.getInstance().getReference("specialists_gallery_images");
 
         profile_image = view.findViewById(R.id.profile_image);
@@ -114,44 +113,21 @@ public class SpecialistInfoFragment extends Fragment {
         instagramIcon = view.findViewById(R.id.instagram_icon);
 
         recyclerView = view.findViewById(R.id.gallery_recycleview);
-       name.setText(getArguments().getString("name"));
+        name.setText(getArguments().getString("name"));
         jobTitle.setText(getArguments().getString("jobTitle"));
         description.setText(getArguments().getString("description"));
         facebookUrl = getArguments().getString("facebook");
         instagramUrl = getArguments().getString("instagram");
         Picasso.get().load(getArguments().getString("imageUrl")).into(profile_image);
 
-//        documentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-//            @Override
-//            public void onSuccess(DocumentSnapshot documentSnapshot) {
-//                String url = documentSnapshot.getString("imageUrl");
-//                Picasso.get().load(url).into(profile_image);
-//
-//                String sname = documentSnapshot.getString("name");
-//                name.setText(sname);
-//
-//                String sjobtitle=documentSnapshot.getString("jobTitle");
-//                jobTitle.setText(sjobtitle);
-//
-//                String sdescription = documentSnapshot.getString("description");
-//                description.setText(sdescription);
-//
-//                String sfacebook = documentSnapshot.getString("facebook");
-//                facebookUrl = sfacebook;
-//                if (facebookUrl.equals("")) {
-//                    facebookIcon.setVisibility(View.INVISIBLE);
-//                }
-//                String sinstagram = documentSnapshot.getString("instagram");
-//                instagramUrl = sinstagram;
-//                if (instagramUrl.equals("")) {
-//                    instagramIcon.setVisibility(View.INVISIBLE);
-//                }
-//            }
-//        });
 
+        if (!facebookUrl.equals("")) {
+            facebookIcon.setVisibility(View.VISIBLE);
+        }
 
-
-
+        if (!instagramUrl.equals("")) {
+            instagramIcon.setVisibility(View.VISIBLE);
+        }
 
 
         recyclerview();
@@ -161,16 +137,12 @@ public class SpecialistInfoFragment extends Fragment {
         facebookIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
-                assert getArguments() != null;
-                if (!Objects.equals(getArguments().getString("facebook"), "")) {
-                    String fb = getArguments().getString("facebook");
-                    Intent facebookIntent = new Intent(Intent.ACTION_VIEW);
-                    String facebookUrl = getFacebookPageURL(getContext());
-                    facebookIntent.setData(Uri.parse(facebookUrl+fb));
-                    startActivity(facebookIntent);
-                }
+                Intent facebookIntent = new Intent(Intent.ACTION_VIEW);
+                //  String facebookUrl = getFacebookPageURL(this);
+                facebookIntent.setData(Uri.parse(getFacebookPageURL(getContext(), getArguments().getString("facebook"))));
+                startActivity(facebookIntent);
+                Log.d("test", facebookIntent.toString())
+                ;
 
             }
         });
@@ -203,7 +175,7 @@ public class SpecialistInfoFragment extends Fragment {
     }
 
 
-        private void recyclerview() {
+    private void recyclerview() {
 
 
         LinearLayoutManager horizontalLayoutManagaer = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
@@ -216,8 +188,8 @@ public class SpecialistInfoFragment extends Fragment {
 
     }
 
-        @Override
-        public void onStart() {
+    @Override
+    public void onStart() {
         super.onStart();
 
         adapter.startListening();
@@ -225,8 +197,8 @@ public class SpecialistInfoFragment extends Fragment {
     }
 
 
-        @Override
-        public void onDestroy() {
+    @Override
+    public void onDestroy() {
         super.onDestroy();
         toolbar.setVisibility(View.VISIBLE);
         adapter.stopListening();
@@ -234,42 +206,6 @@ public class SpecialistInfoFragment extends Fragment {
 
     }
 
-
-        public static String FACEBOOK_URL = "https://www.facebook.com/";
-        public static String FACEBOOK_PAGE_ID = "YourPageName";
-
-        //method to get the right URL to use in the intent
-        public String getFacebookPageURL(Context context) {
-        PackageManager packageManager = context.getPackageManager();
-        try {
-            int versionCode = packageManager.getPackageInfo("com.facebook.katana", 0).versionCode;
-            if (versionCode >= 3002850) { //newer versions of fb app
-                return "fb://facewebmodal/f?href=" + FACEBOOK_URL + getArguments().getString("facebook");
-            } else { //older versions of fb app
-                return "fb://page/" + FACEBOOK_PAGE_ID;
-            }
-        } catch (PackageManager.NameNotFoundException e) {
-            return FACEBOOK_URL; //normal web url
-        }
-    }
-
-        public static String INSTAGRAM_URL = "https://www.instagram.com";
-        public static String INSTAGRAM_PAGE_ID = "YourPageName";
-
-        //method to get the right URL to use in the intent
-        public String getInstagramPageURL(Context context) {
-        PackageManager packageManager = context.getPackageManager();
-        try {
-            int versionCode = packageManager.getPackageInfo("com.instagram.katana", 0).versionCode;
-            if (versionCode >= 3002850) { //newer versions of fb app
-                return "fb://facewebmodal/f?href=" + FACEBOOK_URL;
-            } else { //older versions of fb app
-                return "fb://page/" + FACEBOOK_PAGE_ID;
-            }
-        } catch (PackageManager.NameNotFoundException e) {
-            return FACEBOOK_URL; //normal web url
-        }
-    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -285,4 +221,34 @@ public class SpecialistInfoFragment extends Fragment {
                 return super.onOptionsItemSelected(item);
         }
     }
+
+    private static boolean appInstalledOrNot(Context context, String uri) {
+        PackageManager pm = context.getPackageManager();
+        try {
+            pm.getPackageInfo(uri, PackageManager.GET_ACTIVITIES);
+            return true;
+        } catch (PackageManager.NameNotFoundException e) {
+        }
+
+        return false;
     }
+
+    public static String getFacebookPageURL(Context context, String pageid) {
+        String result = "";
+        final String FACEBOOK_PAGE_ID = pageid;
+        final String FACEBOOK_URL = "https://fb.com/" + pageid;
+
+        if (appInstalledOrNot(context, "com.facebook.katana")) {
+            try {
+                result = "fb://facewebmodal/f?href=https://www.facebook.com/" + FACEBOOK_PAGE_ID;
+                // previous version, maybe relevant for old android APIs ?
+                // return "fb://facewebmodal/f?href=" + FACEBOOK_URL;
+            } catch (Exception e) {
+            }
+        } else {
+            result = FACEBOOK_URL;
+        }
+        return result;
+    }
+
+}
